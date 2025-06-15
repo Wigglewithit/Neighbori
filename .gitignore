@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg-info/
+*.egg
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Django migrations
+**/migrations/
+!**/migrations/__init__.py
+
+# SQLite database
+*.sqlite3
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# PyCharm / JetBrains
+.idea/
+
+# VS Code
+.vscode/
+
+# Compiled files
+*.so
+
+# Static and media
+/static/
+/media/
+/staticfiles/
+
+# Build artifacts
+build/
+dist/
+*.manifest
+*.spec
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
