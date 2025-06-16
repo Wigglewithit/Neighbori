@@ -3,7 +3,7 @@
 SkillShare is a lightweight, free-to-use platform built for connecting people through community-powered skill-sharing. 
 Whether you want to learn something new, teach a skill, or offer services in exchange for knowledge, SkillShare enables all of that without the friction of traditional freelancing platforms.
 
-## 🌐 Features
+##  Features
 
 - User registration and profiles
 - Skill listings and categories
@@ -12,14 +12,14 @@ Whether you want to learn something new, teach a skill, or offer services in exc
 - Community feedback and ratings
 - Admin dashboard for moderation
 
-## 🚀 Stack
+## Stack
 
 - **Backend**: Django + PostgreSQL
 - **Frontend**: HTML + Tailwind (planned)
 - **Deployment**: To be hosted (Render, Railway, etc.)
 - **License**: MIT
 
-## 📦 Setup
+## Setup
 
 1. Clone the repo  
    `git clone https://github.com/Wigglewithit/SkillShare.git`
@@ -37,7 +37,7 @@ Whether you want to learn something new, teach a skill, or offer services in exc
 5. Run the server  
    `python manage.py runserver`
 
-## 📂 Folder Structure
+##  Folder Structure
 
 ```
 SkillShare/
@@ -51,10 +51,10 @@ SkillShare/
 └── requirements.txt
 ```
 
-## 🛠 Contributing
+## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you’d like to change or add.
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License.
