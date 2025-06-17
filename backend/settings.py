@@ -16,6 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+AUTH_USER_MODEL = 'users.User'
 
 # === Installed Applications ===
 INSTALLED_APPS = [
@@ -25,7 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',  # your app
+    'core',
+    'users',
+    'rest_framework',
+    # your app
 ]
 
 # === Middleware ===
