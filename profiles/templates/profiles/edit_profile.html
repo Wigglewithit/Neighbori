@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<h2>Edit Your Profile</h2>
+<form id="profile-form" method="POST">
+  {% csrf_token %}
+  <label>Bio:</label><br>
+  <textarea name="bio">{{ profile.bio }}</textarea><br><br>
+
+  <label>Skills Offered:</label><br>
+  <input type="text" name="skills_offered" value="{{ profile.skills_offered }}"><br><br>
+
+  <label>Skills Wanted:</label><br>
+  <input type="text" name="skills_wanted" value="{{ profile.skills_wanted }}"><br><br>
+
+  <label>Trade Preference:</label><br>
+  <select name="trade_preferences">
+    <option value="services" {% if profile.trade_preferences == 'services' %}selected{% endif %}>Services</option>
+    <option value="items" {% if profile.trade_preferences == 'items' %}selected{% endif %}>Items</option>
+    <option value="projects" {% if profile.trade_preferences == 'projects' %}selected{% endif %}>Projects</option>
+    <option value="mentorship" {% if profile.trade_preferences == 'mentorship' %}selected{% endif %}>Mentorship</option>
+  </select><br><br>
+
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

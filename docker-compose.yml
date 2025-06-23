@@ -13,7 +13,7 @@ services:
     environment:
       - DEBUG=True
       - SECRET_KEY=changeme
-      - DB_NAME=skillshare
+      - DB_NAME=Neighbori
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=db
@@ -22,7 +22,7 @@ services:
   db:
     image: postgres:15
     environment:
-      POSTGRES_DB: skillshare
+      POSTGRES_DB: Neighbori
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:

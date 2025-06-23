@@ -3,6 +3,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
+AUTH_USER_MODEL = 'users.CustomUser'
+LOGIN_URL = '/users/login/'
+LOGIN_REDIRECT_URL = '/'  # or any page you want to redirect after login
 
 # === Security Headers ===
 SECURE_BROWSER_XSS_FILTER = True
@@ -16,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
-AUTH_USER_MODEL = 'users.User'
+
 
 # === Installed Applications ===
 INSTALLED_APPS = [
@@ -29,8 +32,19 @@ INSTALLED_APPS = [
     'core',
     'users',
     'rest_framework',
+    'profiles',
+    'skills',
+    'messaging',
+    'trades',
+    'widget_tweaks',
+    'locations',
+
+
     # your app
 ]
+
+
+
 
 # === Middleware ===
 MIDDLEWARE = [
@@ -51,10 +65,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -62,6 +77,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 # === Database ===
 DATABASES = {

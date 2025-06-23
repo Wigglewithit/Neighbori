@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.skill }}{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow rounded p-6">
+    <h1 class="text-2xl font-bold text-blue-700">{{ post.skill }}</h1>
+    <p class="text-sm text-gray-500 mb-2">{{ post.get_post_type_display }}</p>
+    <p class="mb-4">{{ post.description }}</p>
+    <p class="text-xs text-gray-400">Posted by {{ post.user.username }} on {{ post.created_at|date:"M d, Y" }}</p>
+
+    {% if user.is_authenticated %}
+        {% if user != post.user %}
+            <div class="mt-6">
+                <a href="{% url 'messages:send_message' post.user.id %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Reply to {{ post.user.username }}
+                </a>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="mt-6">
+            <a href="{% url 'login' %}?next={{ request.path }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                Log in to reply
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<a href="{% url 'skill_feed' %}" class="inline-block mt-4 text-sm text-blue-600 hover:underline">← Back to Feed</a>
+{% endblock %}

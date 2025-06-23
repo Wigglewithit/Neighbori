@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-semibold text-blue-600 mb-4">Your Trade History</h2>
+
+  <ul class="divide-y divide-gray-200">
+    {% for trade in trades %}
+      <li class="py-4">
+        <p class="text-gray-800">
+          <strong>{{ trade.user_one.username }}</strong> gave
+          <span class="text-blue-700">"{{ trade.skill_given_by_user_one }}"</span>
+          ↔
+          <strong>{{ trade.user_two.username }}</strong> gave
+          <span class="text-blue-700">"{{ trade.skill_given_by_user_two }}"</span>
+        </p>
+        <p class="text-sm text-gray-500">on {{ trade.agreed_on|date:"M d, Y H:i" }}</p>
+      </li>
+    {% empty %}
+      <li class="text-gray-500 text-sm">No trades logged yet.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'skill_feed' %}" class="inline-block mt-6 text-sm text-blue-600 hover:underline">← Back to Feed</a>
+</div>
+{% endblock %}

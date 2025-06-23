@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Inbox{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Inbox</h1>
+
+{% if inbox_messages %}
+  <div class="space-y-4">
+    {% for message in inbox_messages %}
+      <div class="bg-white shadow-md rounded-lg p-4 transition duration-150
+                  {% if not message.read %}bg-blue-50{% endif %} hover:bg-blue-100">
+
+        {% if message.sender == request.user %}
+          <a href="{% url 'messages:thread' message.recipient.id %}">
+        {% else %}
+          <a href="{% url 'messages:thread' message.sender.id %}">
+        {% endif %}
+
+            <p class="text-sm text-gray-600 flex items-center space-x-2">
+              {% if message.sender == request.user %}
+                <span>To: {{ message.recipient.username }}</span>
+              {% else %}
+                <span>From: {{ message.sender.username }}</span>
+              {% endif %}
+
+              {% if not message.read %}
+                <span class="text-blue-500 text-xs">🔵</span>
+              {% endif %}
+            </p>
+
+
+
+
+            <p class="{% if not message.read %}font-semibold {% endif %}text-gray-700">
+              {{ message.body|truncatewords:10 }}
+            </p>
+
+            <p class="text-xs text-gray-400 mt-1 {% if not message.read %}italic{% endif %}">
+              {{ message.sent_at|date:"M d, Y H:i" }}
+            </p>
+
+          </a>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="text-center text-gray-500">
+    <p>No messages yet.</p>
+  </div>
+{% endif %}
+
+<a href="{% url 'skill_feed' %}" class="inline-block mt-6 text-sm text-blue-600 hover:underline">← Back to Feed</a>
+
+<div class="mt-6 flex justify-center space-x-4 text-sm">
+  {% if inbox_messages.has_previous %}
+    <a href="?page={{ inbox_messages.previous_page_number }}" class="text-blue-600 hover:underline">← Previous</a>
+  {% endif %}
+  {% if inbox_messages.has_next %}
+    <a href="?page={{ inbox_messages.next_page_number }}" class="text-blue-600 hover:underline">Next →</a>
+  {% endif %}
+</div>
+{% endblock %}

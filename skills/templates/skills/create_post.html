@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}Post a Skill{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Post a New Skill</h1>
+
+<form method="post" class="space-y-6 bg-white shadow rounded p-6">
+    {% csrf_token %}
+
+    <div>
+        <label for="id_post_type" class="block text-sm font-medium text-gray-700">Post type:</label>
+        <select name="post_type" id="id_post_type"
+                class="mt-1 block w-full bg-blue-50 text-gray-800 border border-blue-100 rounded-md shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+            {% for value, label in form.post_type.field.choices %}
+                <option value="{{ value }}" {% if form.post_type.value == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div>
+        <label for="id_skill" class="block text-sm font-medium text-gray-700">Skill:</label>
+        {{ form.skill|add_class:"mt-1 block w-full bg-blue-50 text-gray-800 border border-blue-100 rounded-md shadow-sm px-4 py-2 focus:ring-indigo-600 focus:border-indigo-600" }}
+    </div>
+
+    <div>
+        <label for="id_description" class="block text-sm font-medium text-gray-700">Description:</label>
+        {{ form.description|add_class:"mt-1 block w-full border border-blue-100 bg-blue-50 text-gray-800 rounded-md shadow-sm px-4 py-3 min-h-[120px] focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+    </div>
+
+    <button type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow-sm">
+        Submit
+    </button>
+</form>
+
+<a href="{% url 'skill_feed' %}" class="inline-block mt-4 text-sm text-blue-600 hover:underline">← Back to Feed</a>
+{% endblock %}

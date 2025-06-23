@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Community Feed{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Community Feed</h1>
+
+<form method="get" class="flex flex-col md:flex-row items-start md:items-center gap-3 mb-6">
+    <input type="text" name="q" placeholder="Search the community!" value="{{ request.GET.q }}"
+           class="w-full md:w-auto flex-grow border border-gray-300 rounded px-4 py-2">
+
+    <select name="type" class="border border-gray-300 rounded px-4 py-2">
+        <option value="">All</option>
+        <option value="offer" {% if request.GET.type == "offer" %}selected{% endif %}>Offers</option>
+        <option value="request" {% if request.GET.type == "request" %}selected{% endif %}>Requests</option>
+    </select>
+
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        Filter
+    </button>
+</form>
+
+<ul class="space-y-4">
+    {% for post in posts %}
+        <li class="bg-white rounded shadow p-4">
+            <div class="text-sm text-gray-500 mb-1">{{ post.get_post_type_display }}</div>
+            <a href="{% url 'skill_detail' post.id %}" class="text-xl font-semibold text-blue-700 hover:underline">
+                {{ post.skill }}
+            </a>
+            <p class="mt-2 text-gray-700">{{ post.description }}</p>
+            <div class="text-xs text-gray-400 mt-3">
+                Posted by {{ post.user.username }} on {{ post.created_at|date:"M d, Y" }}
+            </div>
+        </li>
+    {% empty %}
+        <li class="text-gray-500">No posts found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,7 +1,7 @@
-# SkillShare
+# Neighbori
 
-SkillShare is a lightweight, free-to-use platform built for connecting people through community-powered skill-sharing. 
-Whether you want to learn something new, teach a skill, or offer services in exchange for knowledge, SkillShare enables all of that without the friction of traditional freelancing platforms.
+Neighbori is a lightweight, free-to-use platform built for connecting people through community-powered skill-sharing. 
+Whether you want to learn something new, teach a skill, or offer services in exchange for knowledge, Neighbori enables all of that without the friction of traditional freelancing platforms.
 
 ##  Features
 
@@ -22,7 +22,7 @@ Whether you want to learn something new, teach a skill, or offer services in exc
 ## Setup
 
 1. Clone the repo  
-   `git clone https://github.com/Wigglewithit/SkillShare.git`
+   `git clone https://github.com/Wigglewithit/Neighbori.git`
 
 2. Create a virtual environment  
    `python -m venv .venv`
@@ -40,7 +40,7 @@ Whether you want to learn something new, teach a skill, or offer services in exc
 ##  Folder Structure
 
 ```
-SkillShare/
+Neighbori/
 ├── manage.py
 ├── main/
 │   ├── migrations/
