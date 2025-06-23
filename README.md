@@ -17,7 +17,7 @@ Whether you want to learn something new, teach a skill, or offer services in exc
 - **Backend**: Django + PostgreSQL
 - **Frontend**: HTML + Tailwind (planned)
 - **Deployment**: To be hosted (Render, Railway, etc.)
-- **License**: MIT![img.png](img.png)
+
 
 ## Setup
 
