@@ -12,7 +12,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('accounts/', include('users.urls')),
     path('locations/', include('locations.urls')),
-    path('profile/', include('profiles.urls')),
+    path('profiles/', include('profiles.urls', namespace='profiles')),
     path('api/profile/', include('profiles.urls')),
 
 

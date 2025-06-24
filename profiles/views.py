@@ -5,6 +5,8 @@ from .models import SkillProfile
 from rest_framework import generics, permissions
 from .serializers import SkillProfileSerializer
 from django.contrib.auth.decorators import login_required
+from .forms import ProfileForm
+
 
 def profile_detail_view(request, username):
     profile = get_object_or_404(SkillProfile, user__username=username)
@@ -24,15 +26,18 @@ class SkillProfileUpdateView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user.profile
 
+
+@login_required
 def edit_profile_view(request):
-    profile = request.user.profile
+    profile, created = SkillProfile.objects.get_or_create(user=request.user)
 
-    if request.method == "POST":
-        profile.bio = request.POST.get("bio", profile.bio)
-        profile.skills_offered = request.POST.get("skills_offered", profile.skills_offered)
-        profile.skills_wanted = request.POST.get("skills_wanted", profile.skills_wanted)
-        profile.trade_preferences = request.POST.get("trade_preferences", profile.trade_preferences)
-        profile.save()
-        return redirect("edit-profile")  # or wherever you want to go after save
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            # ✅ Save is complete — safe to redirect now
+            return redirect('profiles:profile_detail', username=request.user.username)
+    else:
+        form = ProfileForm(instance=profile)
 
-    return render(request, "profiles/edit_profile.html", {"profile": profile})
+    return render(request, 'profiles/edit_profile.html', {'form': form})
