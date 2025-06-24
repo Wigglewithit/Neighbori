@@ -8,21 +8,20 @@
 <body class="bg-gray-100 text-blue-500 font-sans min-h-screen">
 
 <!-- Top Navigation -->
-<nav class="bg-blue-50 border-b border-blue-100 shadow-sm px-6 py-4">
-    <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-xl font-bold text-blue-500">Neighbori</h1>
+<nav class="fixed top-0 left-0 w-full bg-blue-50 shadow z-50 py-3">
+    <div class="container mx-auto flex justify-between items-center px-4">
+        <h1 class="text-xl font-bold text-blue-600">Neighbori</h1>
 
-        <ul class="flex gap-6 text-sm font-medium text-blue-500 items-center">
+        <ul class="flex gap-6 text-sm font-medium text-blue-700 items-center">
             <li><a href="{% url 'skill_feed' %}" class="hover:text-indigo-600">Feed</a></li>
-            <li><a href="{% url 'create_post' %}" class="hover:text-indigo-600">Post Skill</a></li>
+            <li><a href="{% url 'create_post' %}" class="hover:text-indigo-600">Create Post</a></li>
             <li><a href="{% url 'messages:inbox' %}" class="hover:text-indigo-600">Inbox</a></li>
             <li><a href="{% url 'trade_history' %}" class="hover:text-indigo-600">Trade History</a></li>
             <li><a href="{% url 'select_location' %}" class="hover:text-indigo-600">Location</a></li>
 
-
             {% if user.is_authenticated %}
                 <li>
-                    <a href="{% url 'profiles:profile_detail' user.username %}" class="text-blue-500 font-semibold hover:underline">
+                    <a href="{% url 'profiles:profile_detail' user.username %}" class="font-semibold hover:underline">
                         {{ user.username }}
                     </a>
                 </li>
@@ -37,7 +36,7 @@
 
 <!-- Flash Messages -->
 {% if messages %}
-<div class="max-w-4xl mx-auto px-4 mt-4 space-y-2">
+<div class="max-w-4xl mx-auto px-4 mt-24 space-y-2">
     {% for message in messages %}
         <div class="p-4 rounded shadow-sm
             {% if message.tags == 'success' %}bg-green-100 text-green-800 border-l-4 border-green-500
@@ -50,7 +49,8 @@
 </div>
 {% endif %}
 
-<div class="max-w-4xl mx-auto px-4 py-6">
+<!-- Page Content -->
+<div class="pt-28 max-w-4xl mx-auto px-4 pb-12">
     {% block content %}{% endblock %}
 </div>
 

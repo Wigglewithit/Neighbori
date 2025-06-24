@@ -1,10 +1,10 @@
 from django import forms
-from .models import SkillExchangePost
+from .models import SkillPost
 
-class SkillExchangePostForm(forms.ModelForm):
+class SkillPostForm(forms.ModelForm):
     class Meta:
-        model = SkillExchangePost
-        fields = ['post_type', 'skill', 'description']
+        model = SkillPost
+        fields = ['post_type', 'skill', 'description', 'tags', 'image', 'visibility']
         widgets = {
-            'description': forms.Textarea(attrs={'rows': 4}),
+            'tags': forms.TextInput(attrs={'placeholder': 'e.g. coding, design, carpentry'}),
         }

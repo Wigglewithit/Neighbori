@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import SkillProfile
+from .models import CommunityProfile
 from locations.models import County
 
-@admin.register(SkillProfile)
-class SkillProfileAdmin(admin.ModelAdmin):
-    list_display = ('user',)
-    filter_horizontal = ('counties',)
-    search_fields = ('user__username', 'skills_offered', 'skills_wanted')
-    list_filter = ('trade_preferences', 'state', 'allow_lurkers', 'open_to_connections')
+@admin.register(CommunityProfile)
+class CommunityProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'region', 'location_scope', 'connection_status', 'is_mentor')
+    list_filter = ('region', 'location_scope', 'connection_status', 'is_mentor')
 

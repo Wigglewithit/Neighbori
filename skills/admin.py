@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SkillExchangePost
+from .models import SkillPost
 
 # Register your models here.
-admin.site.register(SkillExchangePost)
+admin.site.register(SkillPost)

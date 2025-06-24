@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import SkillProfile
+from .models import CommunityProfile
 
 class SkillProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SkillProfile
+        model = CommunityProfile
         fields = [
             'bio',
             'skills_offered',

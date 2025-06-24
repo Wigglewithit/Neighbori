@@ -2,26 +2,41 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
-<h2>Edit Your Profile</h2>
-<form id="profile-form" method="POST">
-  {% csrf_token %}
-  <label>Bio:</label><br>
-  <textarea name="bio">{{ profile.bio }}</textarea><br><br>
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mt-20">
+  <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">Edit Your Profile</h2>
 
-  <label>Skills Offered:</label><br>
-  <input type="text" name="skills_offered" value="{{ profile.skills_offered }}"><br><br>
+  {% if profile.profile_picture %}
+    <div class="flex flex-col items-center mb-4">
+      <label class="text-sm font-semibold text-gray-700 mb-2">Current Profile Picture:</label>
+      <img src="{{ profile.profile_picture.url }}" alt="Profile Picture"
+           class="w-24 h-24 rounded-full object-cover border border-gray-300 shadow-sm">
+    </div>
+  {% endif %}
 
-  <label>Skills Wanted:</label><br>
-  <input type="text" name="skills_wanted" value="{{ profile.skills_wanted }}"><br><br>
+  <form method="POST" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+    {% for field in form %}
+      <div>
+        <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-1">
+          {% if field.name == 'profile_picture' %}
+            Upload New Profile Picture:
+          {% else %}
+            {{ field.label }}:
+          {% endif %}
+        </label>
+        {{ field }}
+        {% if field.help_text %}
+          <p class="text-xs text-gray-500 mt-1">{{ field.help_text }}</p>
+        {% endif %}
+        {% for error in field.errors %}
+          <p class="text-sm text-red-500">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
 
-  <label>Trade Preference:</label><br>
-  <select name="trade_preferences">
-    <option value="services" {% if profile.trade_preferences == 'services' %}selected{% endif %}>Services</option>
-    <option value="items" {% if profile.trade_preferences == 'items' %}selected{% endif %}>Items</option>
-    <option value="projects" {% if profile.trade_preferences == 'projects' %}selected{% endif %}>Projects</option>
-    <option value="mentorship" {% if profile.trade_preferences == 'mentorship' %}selected{% endif %}>Mentorship</option>
-  </select><br><br>
-
-  <button type="submit">Save</button>
-</form>
+    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded shadow">
+      Save Changes
+    </button>
+  </form>
+</div>
 {% endblock %}
