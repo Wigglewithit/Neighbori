@@ -32,12 +32,13 @@ INSTALLED_APPS = [
     'core',
     'users',
     'rest_framework',
-    'profiles',
+    'profiles.apps.ProfilesConfig',
     'skills',
     'messaging',
     'trades',
     'widget_tweaks',
     'locations',
+
 
 
     # your app

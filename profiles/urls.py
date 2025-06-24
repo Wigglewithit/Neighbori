@@ -9,6 +9,5 @@ urlpatterns = [
     path('<str:username>/', profile_detail_view, name='profile_detail'),
     path('me/', SkillProfileUpdateView.as_view(), name='my-profile'),
     path('edit/', edit_profile_view, name='edit-profile'),
-    path('<str:username>/', views.profile_detail_view, name='profile_detail'),
 
 ]
