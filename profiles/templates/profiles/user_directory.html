@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Community Directory{% endblock %}
+
+{% block content %}
+<div class="text-center my-10">
+    <h2 class="text-3xl font-bold text-blue-700 mb-6">Community Directory</h2>
+
+    <form method="get" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mb-10 px-4">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search name, skill, or bio"
+            class="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+        <input type="text" name="state" value="{{ state }}" placeholder="State"
+            class="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+        <input type="text" name="county" value="{{ county }}" placeholder="County"
+            class="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+        <select name="gender"
+            class="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <option value="">Gender</option>
+            <option value="male" {% if gender == "male" %}selected{% endif %}>Male</option>
+            <option value="female" {% if gender == "female" %}selected{% endif %}>Female</option>
+            <option value="other" {% if gender == "other" %}selected{% endif %}>Other</option>
+        </select>
+
+        <input type="number" name="min_age" value="{{ min_age }}" placeholder="Min Age"
+            class="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+        <input type="number" name="max_age" value="{{ max_age }}" placeholder="Max Age"
+            class="px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+        <button type="submit"
+            class="px-6 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition col-span-full lg:col-span-1">
+            Search
+        </button>
+    </form>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6">
+    {% for profile in profiles %}
+    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-300">
+        <h3 class="text-xl font-semibold text-blue-600 mb-2">
+            <a href="{% url 'profiles:profile_detail' profile.user.username %}" class="hover:underline">
+                {{ profile.user.username }}
+            </a>
+        </h3>
+
+        <p class="text-gray-700 mb-4">
+            {{ profile.bio|truncatechars:120 }}
+        </p>
+
+        <div class="text-sm text-gray-500">
+            <p><strong>From:</strong> {{ profile.region.name|default:"N/A" }}</p>
+            <p><strong>Offers:</strong> {{ profile.skills_offered|default:"N/A" }}</p>
+            <p><strong>Gender:</strong> {{ profile.user.community_profile.gender|default:"N/A" }}</p>
+            <p><strong>Age:</strong> {{ profile.user.community_profile.age|default:"N/A" }}</p>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-center text-gray-600 col-span-full">No profiles found matching your criteria.</p>
+    {% endfor %}
+</div>
+{% endblock %}

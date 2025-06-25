@@ -15,24 +15,34 @@ class CommunityProfile(models.Model):
         ('regional', 'Regional'),
         ('global', 'Global'),
     ]
-    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+
+    GENDER_CHOICES = [
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('nonbinary', 'Non-binary'),
+        ('other', 'Other'),
+        ('prefer_not', 'Prefer not to say'),
+    ]
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='community_profile')
 
+    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     bio = models.TextField(blank=True)
     skills_offered = models.TextField(blank=True, help_text="Comma-separated list or tags")
     skills_wanted = models.TextField(blank=True)
     interests = models.TextField(blank=True)
 
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, blank=True)
+    age = models.PositiveIntegerField(null=True, blank=True)
+
     connection_status = models.CharField(max_length=20, choices=CONNECTION_VISIBILITY, default='public')
     location_scope = models.CharField(max_length=20, choices=LOCATION_SCOPE, default='regional')
 
-    region = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, blank=True)
+    state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, blank=True)
     counties = models.ManyToManyField(County, blank=True)
     zipcode = models.ForeignKey(ZipCode, on_delete=models.SET_NULL, null=True, blank=True)
 
     available_for = models.TextField(blank=True, help_text="e.g., mentoring, collaboration, barter")
-
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     is_mentor = models.BooleanField(default=False)
     allow_lurkers = models.BooleanField(default=True)
 

@@ -6,10 +6,25 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = CommunityProfile
         fields = [
-            'bio', 'skills_offered', 'skills_wanted', 'interests',
-            'connection_status', 'location_scope', 'region', 'counties',
-            'zipcode', 'available_for', 'profile_picture', 'is_mentor', 'allow_lurkers', 'profile_picture'
+            'bio',
+            'skills_offered',
+            'skills_wanted',
+            'counties',
+            'zipcode',
+            'available_for',
+            'is_mentor',
+            'allow_lurkers',
+            'profile_picture',
+            'connection_status',
+            'location_scope',
+            'gender',
+            'age',
+            'state',
+
         ]
+        widgets = {
+            'counties': forms.CheckboxSelectMultiple(),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

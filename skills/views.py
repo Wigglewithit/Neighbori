@@ -8,24 +8,23 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def skill_feed(request):
-    query = request.GET.get('q')
-    post_type = request.GET.get('type')
-
     posts = SkillPost.objects.all()
 
+    query = request.GET.get("q")
+    post_type = request.GET.get("type")
+    tag = request.GET.get("tag")
+
     if query:
-        posts = posts.filter(
-            Q(skill__icontains=query) |
-            Q(description__icontains=query)
-        )
-    if post_type in ['offer', 'request']:
+        posts = posts.filter(description__icontains=query)
+    if post_type:
         posts = posts.filter(post_type=post_type)
+    if tag:
+        posts = posts.filter(tags__icontains=tag)
 
-    # Split tags into lists for display
     for post in posts:
-        post.tag_list = [tag.strip() for tag in post.tags.split(',') if tag.strip()]
+        post.tag_list = [t.strip() for t in post.tags.split(",") if t.strip()]
 
-    return render(request, 'skills/feed.html', {'posts': posts})
+    return render(request, "skills/feed.html", {"posts": posts})
 
 
 

@@ -15,9 +15,21 @@
         <ul class="flex gap-6 text-sm font-medium text-blue-700 items-center">
             <li><a href="{% url 'skill_feed' %}" class="hover:text-indigo-600">Feed</a></li>
             <li><a href="{% url 'create_post' %}" class="hover:text-indigo-600">Create Post</a></li>
-            <li><a href="{% url 'messages:inbox' %}" class="hover:text-indigo-600">Inbox</a></li>
+
+            <li>
+                <a href="{% url 'messages:inbox' %}" class="relative hover:text-indigo-600 transition">
+                    Inbox
+                    {% if unread_message_count > 0 %}
+                        <span class="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                            {{ unread_message_count }}
+                        </span>
+                    {% endif %}
+                </a>
+            </li>
+
             <li><a href="{% url 'trade_history' %}" class="hover:text-indigo-600">Trade History</a></li>
             <li><a href="{% url 'select_location' %}" class="hover:text-indigo-600">Location</a></li>
+            <li><a href="{% url 'profiles:directory' %}" class="hover:text-indigo-600">Community</a></li>
 
             {% if user.is_authenticated %}
                 <li>
