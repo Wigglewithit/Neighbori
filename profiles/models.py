@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from locations.models import State, County, ZipCode
+from locations.models import State, County, City
 
 
 class CommunityProfile(models.Model):
@@ -40,14 +40,32 @@ class CommunityProfile(models.Model):
 
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, blank=True)
     counties = models.ManyToManyField(County, blank=True)
-    zipcode = models.ForeignKey(ZipCode, on_delete=models.SET_NULL, null=True, blank=True)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
+
 
     available_for = models.TextField(blank=True, help_text="e.g., mentoring, collaboration, barter")
     is_mentor = models.BooleanField(default=False)
     allow_lurkers = models.BooleanField(default=True)
 
+    def save(self, *args, **kwargs):
+        # If a city is selected, auto-set state and counties
+        if self.city:
+            self.state = self.city.state
+            super().save(*args, **kwargs)
+
+            # Match county using the city's associated county (recommended)
+            if self.city.county:
+                self.counties.set([self.city.county])
+            else:
+                self.counties.clear()
+        else:
+            # No city selected; just save and clear counties
+            super().save(*args, **kwargs)
+            self.counties.clear()
+
     def __str__(self):
         return f"{self.user.username}'s Community Profile"
+
 
 class Testimonial(models.Model):
     profile = models.ForeignKey('CommunityProfile', on_delete=models.CASCADE, related_name='testimonials')

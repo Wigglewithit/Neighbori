@@ -13,6 +13,16 @@
             {% endif %}
         </h2>
 
+        {% if profile.city and profile.state %}
+            <p class="text-gray-600 mb-2 text-sm">
+                {{ profile.city.name }}, {{ profile.state.abbreviation|default:profile.state.name }}
+            </p>
+        {% elif profile.state %}
+            <p class="text-gray-600 mb-2 text-sm">
+                {{ profile.state.name }}
+            </p>
+        {% endif %}
+
         <p class="text-sm text-gray-500">{{ profile.user.email }}</p>
 
         {% if profile.profile_picture %}
@@ -78,31 +88,8 @@
             {% endif %}
         </div>
 
-        <!-- Location -->
-        <div>
-            <h2 class="text-lg font-semibold text-blue-500">Location</h2>
-            <p class="text-gray-700">
-                {% if profile.location %}
-                    {{ profile.location }}
-                {% else %}
-                    <span class="text-gray-500 italic">Location not set.</span>
-                {% endif %}
-            </p>
-        </div>
 
-        <!-- Counties -->
-        <div>
-            <h2 class="text-lg font-semibold text-blue-500">Counties</h2>
-            {% if profile.counties.all %}
-                <ul class="list-disc list-inside text-gray-700">
-                    {% for county in profile.counties.all %}
-                        <li>{{ county.name }}, {{ county.state.name }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-gray-500 italic">No counties associated.</p>
-            {% endif %}
-        </div>
+
 
         <!-- Contributions -->
         <div>
