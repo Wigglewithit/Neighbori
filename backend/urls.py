@@ -15,8 +15,7 @@ urlpatterns = [
     path('accounts/', include('users.urls')),
     path('locations/', include('locations.urls')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
-
-
+    path('discover/', include('discover.urls')),
 
 ]
 if settings.DEBUG:

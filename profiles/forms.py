@@ -8,7 +8,9 @@ class ProfileForm(forms.ModelForm):
         required=False,
         widget=forms.Select(attrs={
             'id': 'id_state',
-            'class': 'w-full p-2 border border-blue-200 rounded bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300'
+            'hx-get': '/locations/load-cities/',
+            'hx-target': '#id_city',
+            'hx-trigger': 'change'
         })
     )
 
@@ -29,15 +31,7 @@ class ProfileForm(forms.ModelForm):
             'allow_lurkers',
             'profile_picture',
         ]
-        widgets = {
-            'city': forms.Select(attrs={
-                'id': 'id_city',
-                'hx-get': '/locations/load-cities/',
-                'hx-target': '#id_city',
-                'hx-trigger': 'change from:#id_state',
-                'class': 'w-full p-2 border border-blue-200 rounded bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300'
-            }),
-        }
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

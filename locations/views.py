@@ -13,13 +13,19 @@ def load_counties(request):
     return JsonResponse(data, safe=False)
 
 def load_cities(request):
-    state_id = request.GET.get('state_id')
+    state_id = (
+        request.GET.get('state') or
+        request.GET.get('id_state') or
+        request.GET.get('state_id')
+    )
+
     cities = City.objects.filter(state_id=state_id).order_by('name') if state_id else []
 
     selected_city_id = request.GET.get('city_id')  # Optional, for editing
     context = {
         'cities': cities,
         'selected_city_id': int(selected_city_id) if selected_city_id else None
+
     }
     return render(request, 'locations/city_dropdown_list_options.html', context)
 

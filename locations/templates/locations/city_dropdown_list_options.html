@@ -1,6 +1,6 @@
-<option value="">Select a city</option>
+<option value="">---------</option>
 {% for city in cities %}
-  <option value="{{ city.id }}" {% if selected_city_id and city.id == selected_city_id %}selected{% endif %}>
+  <option value="{{ city.id }}" {% if city.id == selected_city_id %}selected{% endif %}>
     {{ city.name }}
   </option>
 {% endfor %}

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'trades',
     'widget_tweaks',
     'locations',
+    'discover',
 
 
 

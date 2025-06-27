@@ -23,6 +23,7 @@ class SkillPost(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post_type = models.CharField(max_length=20, choices=POST_TYPE_CHOICES)
     skill = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, blank=True)  # optional title
     description = models.TextField()
     tags = models.CharField(max_length=200, blank=True, help_text="Comma-separated")
     image = models.ImageField(upload_to=user_post_image_path, blank=True, null=True)
