@@ -19,6 +19,8 @@ def load_cities(request):
         request.GET.get('state_id')
     )
 
+
+
     cities = City.objects.filter(state_id=state_id).order_by('name') if state_id else []
 
     selected_city_id = request.GET.get('city_id')  # Optional, for editing
@@ -37,3 +39,14 @@ def edit_profile_view(request):
         form.save()
         return redirect('profiles:profile_detail', username=request.user.username)
     return render(request, 'profiles/edit_profile.html', {'form': form})
+
+def get_cities_by_state(request):
+    state_name = request.GET.get('state')          # e.g. "Kentucky"
+    cities = (
+        City.objects
+            .filter(state__name=state_name)        # or state__abbreviation=state_name if you pass "KY"
+            .order_by('name')
+            .values_list('name', flat=True)
+            .distinct()
+    )
+    return JsonResponse({'cities': list(cities)})

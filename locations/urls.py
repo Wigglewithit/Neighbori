@@ -7,5 +7,6 @@ urlpatterns = [
     path('ajax/load-counties/', views.load_counties, name='ajax_load_counties'),
     path('load-cities/', load_cities, name='load_cities'),
     path('locations/load-cities/', load_cities, name='load_cities'),
+    path('cities/', views.get_cities_by_state, name='get_cities_by_state'),
 
 ]

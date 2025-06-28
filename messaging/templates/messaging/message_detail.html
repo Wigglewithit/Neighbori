@@ -1,27 +1,23 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}Message from {{ message.sender.username }}{% endblock %}
 
 {% block content %}
-<div class="bg-white shadow-md rounded p-6">
+<div class="bg-white shadow-md rounded-lg p-6">
   <p class="text-gray-800 mb-2"><strong>From:</strong> {{ message.sender.username }}</p>
-  <p class="text-gray-800 mb-2"><strong>To:</strong> {{ message.recipient.username }}</p>
+  <p class="text-gray-800 mb-2"><strong>To:</strong>   {{ message.recipient.username }}</p>
   <p class="text-xs text-gray-500 mb-4">{{ message.sent_at|date:"M d, Y H:i" }}</p>
 
-  <h2 class="text-lg font-semibold text-gray-900 mb-2">{{ message.body|truncatewords:12 }}</h2>
-
-
-  <div class="bg-blue-50 border border-blue-100 rounded p-4 text-gray-800 whitespace-pre-wrap">
+  <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 text-blue-900 whitespace-pre-wrap">
     {{ message.body }}
   </div>
 
-  <a href="{% url 'messages:message_thread' message.sender.id %}"
-     class="mt-6 inline-block text-sm text-blue-600 hover:underline font-medium">
-    ↩ Reply / View Full Conversation
+  <a href="{% url 'messages:thread' message.sender.id %}"
+     class="mt-6 inline-block text-sm text-indigo-600 hover:underline font-medium">
+     ↩ Reply / View Full Conversation
   </a>
 </div>
 
-<a href="{% url 'messages:inbox' %}" class="inline-block mt-6 text-sm text-blue-600 hover:underline">
-  ← Back to Inbox
-</a>
+<a href="{% url 'messages:inbox' %}"
+   class="inline-block mt-6 text-sm text-indigo-600 hover:underline">← Back to Inbox</a>
 {% endblock %}

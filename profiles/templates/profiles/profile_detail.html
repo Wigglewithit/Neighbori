@@ -1,126 +1,106 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ profile.user.username|title }}'s Profile{% endblock %}
+
 {% block content %}
-<div class="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+<div class="max-w-3xl mx-auto mt-12 p-6 bg-white shadow-lg rounded-2xl border border-gray-100">
 
-    <!-- Header -->
-    <div class="mb-6 text-center">
-        <h2 class="text-2xl font-bold text-blue-600 mb-2">
-            {% if user_profile.get_full_name %}
-                {{ user_profile.get_full_name }}'s Profile
-            {% else %}
-                {{ user_profile.username }}'s Profile
-            {% endif %}
-        </h2>
+  <!-- Profile Header -->
+    <div class="text-center space-y-4">
+      <h1 class="text-3xl font-extrabold text-indigo-700">{{ profile.user.username|title }}'s Profile</h1>
 
-        {% if profile.city and profile.state %}
-            <p class="text-gray-600 mb-2 text-sm">
-                {{ profile.city.name }}, {{ profile.state.abbreviation|default:profile.state.name }}
-            </p>
-        {% elif profile.state %}
-            <p class="text-gray-600 mb-2 text-sm">
-                {{ profile.state.name }}
-            </p>
-        {% endif %}
-
-        <p class="text-sm text-gray-500">{{ profile.user.email }}</p>
-
+      <div class="flex justify-center mt-4">
         {% if profile.profile_picture %}
-            <div class="flex justify-center mt-4">
-                <img src="{{ profile.profile_picture.url }}"
-                     alt="Profile Picture"
-                     class="w-32 h-32 rounded-full object-cover border border-gray-300 shadow">
-            </div>
+          <img src="{{ profile.profile_picture.url }}" alt="Profile Picture"
+               class="w-32 h-32 rounded-full object-cover border-4 border-indigo-500 shadow-md">
+        {% else %}
+          <div class="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center text-white font-bold border-4 border-indigo-500 shadow-md">
+            N/A
+          </div>
         {% endif %}
+      </div>
 
-        <!-- Button: Send Message or Edit Profile -->
-        <div class="mt-4">
-            {% if request.user.is_authenticated and request.user != profile.user %}
-                <a href="{% url 'messages:send_message' profile.user.id %}"
-                   class="inline-flex items-center gap-2 px-4 py-2 rounded bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition">
-                     Send Message
-                </a>
-            {% elif request.user == profile.user %}
-                <a href="{% url 'profiles:edit-profile' %}"
-                   class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded shadow transition">
-                    Edit Profile
-                </a>
-            {% endif %}
-        </div>
+      {% if profile.city and profile.state %}
+        <p class="text-gray-500 text-sm">{{ profile.city }}, {{ profile.state }}</p>
+      {% elif profile.state %}
+        <p class="text-gray-500 text-sm">{{ profile.state }}</p>
+      {% endif %}
+
+      <p class="text-gray-600 text-sm">{{ profile.user.email }}</p>
+
+      {% if request.user == profile.user %}
+        <a href="{% url 'profiles:edit-profile' %}"
+           class="inline-block mt-4 px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-full shadow">
+          Edit Profile
+        </a>
+      {% endif %}
     </div>
 
-    <!-- Profile Sections -->
-    <div class="bg-white p-6 rounded-lg shadow space-y-6">
+  <!-- Profile Sections -->
+  <div class="mt-10 space-y-6 text-gray-800">
 
-        <!-- Bio -->
-        <div>
-            <h2 class="text-lg font-semibold text-blue-500">Bio</h2>
-            <p class="text-gray-700">
-                {{ profile.bio|default:"This user hasn't written a bio yet." }}
-            </p>
-        </div>
-
-        <!-- Skills Offered -->
-        <div>
-            <h2 class="text-lg font-semibold text-blue-500">Skills Offered</h2>
-            {% if skills_offered_list %}
-                <ul class="list-disc list-inside text-gray-700">
-                    {% for skill in skills_offered_list %}
-                        <li>{{ skill }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-gray-500 italic">No skills listed yet.</p>
-            {% endif %}
-        </div>
-
-        <!-- Skills Wanted -->
-        <div>
-            <h2 class="text-lg font-semibold text-blue-500">Skills Wanted</h2>
-            {% if skills_wanted_list %}
-                <ul class="list-disc list-inside text-gray-700">
-                    {% for skill in skills_wanted_list %}
-                        <li>{{ skill }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-gray-500 italic">No skills wanted listed yet.</p>
-            {% endif %}
-        </div>
-
-
-
-
-        <!-- Contributions -->
-        <div>
-            <h2 class="text-lg font-bold text-blue-500 mt-8 mb-4">Contributions</h2>
-            {% if skill_posts %}
-                <ul class="space-y-4">
-                    {% for post in skill_posts %}
-                        <li class="bg-white p-4 shadow rounded-md">
-                            <div class="text-sm text-gray-500">
-                                {{ post.get_post_type_display }} • {{ post.created_at|date:"M d, Y" }}
-                            </div>
-                            <h3 class="text-blue-600 font-semibold text-lg">{{ post.skill }}</h3>
-                            <p class="text-gray-700 mt-1">{{ post.description|truncatewords:25 }}</p>
-                            {% if post.image %}
-                                <img src="{{ post.image.url }}" alt="{{ post.skill }}" class="mt-2 w-full max-h-48 object-cover rounded">
-                            {% endif %}
-                            {% if post.tags %}
-                                <div class="mt-2 flex flex-wrap gap-1 text-xs text-blue-600">
-                                    {% for tag in post.tag_list %}
-                                        <span class="bg-blue-100 px-2 py-0.5 rounded">{{ tag }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-gray-500">No contributions yet.</p>
-            {% endif %}
-        </div>
-
+    <!-- Bio -->
+    <div>
+      <h2 class="text-lg font-semibold text-indigo-600 flex items-center gap-2">
+        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4h12v2H4V4zm0 4h12v2H4V8zm0 4h8v2H4v-2z"/></svg>
+        Bio
+      </h2>
+      <p class="mt-1 text-sm text-gray-700 whitespace-pre-line">
+        {{ profile.bio|default:"This user hasn't written a bio yet." }}
+      </p>
     </div>
+
+    <!-- Skills Offered -->
+    <div>
+      <h2 class="text-lg font-semibold text-indigo-600 flex items-center gap-2">
+        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0z"/></svg>
+        Skills Offered
+      </h2>
+      {% if skills_offered %}
+        <ul class="mt-1 text-sm text-gray-700 list-disc list-inside space-y-1">
+          {% for skill in skills_offered %}
+            <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-sm text-gray-500 italic">No skills listed yet.</p>
+      {% endif %}
+    </div>
+
+    <!-- Skills Wanted -->
+    <div>
+      <h2 class="text-lg font-semibold text-indigo-600 flex items-center gap-2">
+        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20"><path d="M13 7H7v6h6V7z"/></svg>
+        Skills Wanted
+      </h2>
+      {% if skills_wanted %}
+        <ul class="mt-1 text-sm text-gray-700 list-disc list-inside space-y-1">
+          {% for skill in skills_wanted %}
+            <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-sm text-gray-500 italic">No skills wanted listed yet.</p>
+      {% endif %}
+    </div>
+
+    <!-- Contributions -->
+    <div>
+      <h2 class="text-lg font-semibold text-indigo-600 flex items-center gap-2">
+        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20"><path d="M6 2a1 1 0 00-1 1v1h10V3a1 1 0 10-2 0v1H8V3a1 1 0 00-1-1z"/></svg>
+        Contributions
+      </h2>
+      {% if contributions %}
+        <ul class="mt-1 text-sm text-gray-700 space-y-2">
+          {% for contribution in contributions %}
+            <li class="border-l-4 border-indigo-400 pl-2">{{ contribution }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-sm text-gray-500 italic">No contributions yet.</p>
+      {% endif %}
+    </div>
+
+  </div>
 </div>
 {% endblock %}

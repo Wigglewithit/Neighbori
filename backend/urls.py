@@ -7,15 +7,18 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('skills/', include('skills.urls')),
     path('messages/', include('messaging.urls')),
-    path('trades/', include('trades.urls')),
     path('', lambda request: redirect('messages:inbox'), name='home'),
     path('users/', include('users.urls')),
     path('accounts/', include('users.urls')),
     path('locations/', include('locations.urls')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
     path('discover/', include('discover.urls')),
+    path('skills/', include(('skills.urls', 'skills'), namespace='skills')),
+    path('groups/', include('groups.urls')),
+    path('events/', include('events.urls')),
+
+
 
 ]
 if settings.DEBUG:

@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     'profiles.apps.ProfilesConfig',
     'skills',
     'messaging',
-    'trades',
     'widget_tweaks',
     'locations',
     'discover',
+    'groups',
+    'events',
+    'django.contrib.humanize',
 
 
 

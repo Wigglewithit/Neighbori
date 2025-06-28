@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
 
+
 # Create your views here.
 def skill_feed(request):
     posts = SkillPost.objects.all()
@@ -35,6 +36,7 @@ def create_post_view(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
+            post.profile = request.user.community_profile  # ✅ Add this
             post.save()
             return redirect('skill_feed')
     else:

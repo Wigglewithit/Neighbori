@@ -1,17 +1,21 @@
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from profiles.models import CommunityProfile
 
 def user_post_image_path(instance, filename):
     username_slug = slugify(instance.user.username)
     return f"user_posts/{username_slug}/{filename}"
 
 class SkillPost(models.Model):
+
     VISIBILITY_CHOICES = [
         ('public', 'Public'),
         ('local', 'Local Only'),
         ('connections', 'Connections Only'),
+
     ]
+
 
     POST_TYPE_CHOICES = [
         ('offer', 'Offering a Skill'),
@@ -19,7 +23,12 @@ class SkillPost(models.Model):
         ('mentorship', 'Offering Mentorship'),
         ('collab', 'Looking to Collaborate'),
     ]
-
+    profile = models.ForeignKey(
+        "profiles.CommunityProfile",
+        on_delete=models.CASCADE,
+        null=True,  # ✅ allow nulls for existing posts
+        blank=True  # ✅ so forms don’t require it either
+    )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post_type = models.CharField(max_length=20, choices=POST_TYPE_CHOICES)
     skill = models.CharField(max_length=100)

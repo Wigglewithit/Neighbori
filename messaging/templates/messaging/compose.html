@@ -1,30 +1,30 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load widget_tweaks %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md mt-6">
-    <h2 class="text-2xl font-semibold text-blue-600 mb-4">Compose Message</h2>
+  <h2 class="text-2xl font-semibold text-indigo-600 mb-4">Compose Message</h2>
 
-    <form method="POST">
-        {% csrf_token %}
+  <form method="post">
+    {% csrf_token %}
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">To:</label>
-            <input type="text" value="{{ recipient.username }}" readonly
-                   class="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm">
-        </div>
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">To:</label>
+      <input type="text" value="{{ recipient.username }}" readonly
+             class="w-full px-4 py-2 bg-gray-100 border border-gray-300
+                    rounded-md shadow-sm text-gray-700">
+    </div>
 
+    <div class="mb-4">
+      {{ form.body.label_tag }}
+      {{ form.body|add_class:"w-full px-4 py-3 border border-blue-100 bg-blue-50 rounded-md shadow-sm min-h-[120px]" }}
+    </div>
 
-
-        <div class="mb-4">
-            {{ form.body.label_tag }}
-            {{ form.body|add_class:"w-full px-4 py-3 border border-blue-100 bg-blue-50 rounded-md shadow-sm min-h-[120px]" }}
-        </div>
-
-        <button type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow-sm">
-            Send
-        </button>
-    </form>
+    <button type="submit"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold
+                   px-6 py-2 rounded shadow-sm">
+      Send
+    </button>
+  </form>
 </div>
 {% endblock %}
